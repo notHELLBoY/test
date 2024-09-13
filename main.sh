@@ -9,13 +9,26 @@ generate_ipv4() {
 get_country() {
     local ip=$1
     country=$(curl -s https://ipinfo.io/$ip/country)
-    echo "Country: $country"
+    
+    # چک کردن اینکه آیا درخواست به درستی انجام شده یا نه
+    if [ -z "$country" ]; then
+        echo "Country information not available for IP: $ip"
+    else
+        echo "Country: $country"
+    fi
 }
 
 # پینگ گرفتن از آدرس IP
 ping_ip() {
     local ip=$1
-    ping -c 4 $ip
+    echo "Pinging IP: $ip"
+    
+    # تست پینگ با استفاده از 4 بسته
+    if ping -c 4 $ip > /dev/null; then
+        echo "Ping successful!"
+    else
+        echo "Ping failed."
+    fi
 }
 
 # اجرای اسکریپت
